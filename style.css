@@ -5,7 +5,7 @@
 
 #game {
     width: 400px;
-    height: 500px;
+    height: 550px;
     border: 1px solid #181818;
     margin: auto;
     overflow: hidden;
@@ -15,13 +15,13 @@
 #obstacle {
     position: absolute;
     width: 50px;
-    height: 500px;
+    height: 550px;
     left: 400px;
     animation: block 2s infinite linear;
 }
 
 #block {
-    height: 500px;
+    height: 550px;
     background: green;
 }
 
@@ -49,4 +49,44 @@
     position: absolute;
     top: 100px;
     border-radius: 50%;
+}
+
+body {
+    margin: 0;
+    overflow: hidden;
+    background: #70c5ce;
+}
+
+#background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* derrière le jeu */
+    overflow: hidden;
+}
+
+.layer {
+    position: absolute;
+    width: 200%;
+    height: 100%;
+    background-repeat: repeat-x;
+    background-position: 0 0;
+    animation: scroll 10s linear infinite;
+}
+
+#layer1 {
+    background-image: url('img/layer1.png'); /* montagnes */
+    animation-duration: 20s; /* lent pour effet de profondeur */
+}
+
+#layer2 {
+    background-image: url('img/layer3.png'); /* nuages */
+    animation-duration: 40s; /* encore plus lent */
+}
+
+@keyframes scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
 }
