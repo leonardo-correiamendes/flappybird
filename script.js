@@ -41,7 +41,7 @@ setInterval(function () {
         characterRect.top < gameRect.top ||
         characterRect.bottom > gameRect.bottom
     ) {
-        triggerGameOver();
+        ttriggerGameOver();
     }
 
     if (
@@ -50,7 +50,7 @@ setInterval(function () {
         (characterRect.top < holeRect.top ||
             characterRect.bottom > holeRect.bottom)
     ) {
-        triggerGameOver();
+        ttriggerGameOver();
     }
 }, 10);
 

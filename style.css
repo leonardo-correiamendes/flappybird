@@ -18,11 +18,25 @@
     height: 550px;
     left: 400px;
     animation: block 2s infinite linear;
+    z-index: 2;
 }
 
 #block {
     height: 550px;
-    background: green;
+    position: relative;
+    /* cylindre vert avec reflets */
+    background: linear-gradient(
+        to right,
+        var(--pipe-green-dark) 0%,
+        var(--pipe-green) 15%,
+        var(--pipe-green-light) 40%,
+        var(--pipe-green) 70%,
+        var(--pipe-green-dark) 100%
+    );
+    border-left: 3px solid var(--pipe-green-dark);
+    border-right: 3px solid var(--pipe-green-dark);
+    box-shadow: inset 6px 0 10px rgba(255, 255, 255, 0.12),
+        inset -6px 0 10px rgba(0, 0, 0, 0.15);
 }
 
 @keyframes block {
@@ -39,7 +53,39 @@
     top: 200px;
     width: 50px;
     height: 150px;
-    background: white;
+    background: var(--sky);
+}
+
+#hole::before,
+#hole::after {
+    content: "";
+    position: absolute;
+    left: -8px; /* déborde un peu à gauche/droite */
+    width: 62px;
+    height: 18px; /* épaisseur du capuchon */
+    border: 3px solid var(--pipe-green-dark);
+    background: linear-gradient(
+        to bottom,
+        var(--pipe-green-light),
+        var(--pipe-green)
+    );
+    box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.08), 0 2px 0 rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    z-index: 1;
+}
+
+#hole::before {
+    top: -18px; /* capuchon du haut */
+    border-bottom: none;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+}
+
+#hole::after {
+    bottom: -18px; /* capuchon du bas */
+    border-top: none;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
 }
 
 #character {
@@ -49,6 +95,7 @@
     position: absolute;
     top: 100px;
     border-radius: 50%;
+    z-index: 3;
 }
 
 body {
@@ -63,7 +110,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -1; /* derrière le jeu */
+    z-index: 0; /* derrière le jeu */
     overflow: hidden;
 }
 
@@ -77,16 +124,27 @@ body {
 }
 
 #layer1 {
-    background-image: url('img/layer1.png'); /* montagnes */
+    background-image: url("img/layer1.png"); /* montagnes */
     animation-duration: 20s; /* lent pour effet de profondeur */
 }
 
 #layer2 {
-    background-image: url('img/layer3.png'); /* nuages */
+    background-image: url("img/layer3.png"); /* nuages */
     animation-duration: 40s; /* encore plus lent */
 }
 
 @keyframes scroll {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+:root {
+    --pipe-green: #45b64d;
+    --pipe-green-dark: #2f8f35;
+    --pipe-green-light: #79db7f;
+    --sky: #70c5ce;
 }
