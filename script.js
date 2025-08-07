@@ -1,65 +1,88 @@
-var obstacle = document.getElementById("obstacle");
-var block = document.getElementById("block");
-var hole = document.getElementById("hole");
-var character = document.getElementById("character");
-var game = document.getElementById("game");
+const character = document.getElementById("character");
+const game = document.getElementById("game");
 
-var jumping = 0;
-var counter = 0;
-var gameOver = false;
-var firstLoop = true;
+const pipeTop = document.querySelector(".pipe-top");
+const pipeBottom = document.querySelector(".pipe-bottom");
 
-hole.style.top = "175px";
+let jumping = 0;
+let counter = 0;
+let gameOver = false;
+let firstLoop = true;
+
+// Position initiale du trou
+let holeTop = 175;
+pipeTop.style.height = holeTop + "px";
+pipeBottom.style.top = holeTop + 150 + "px";
+pipeBottom.style.height = 550 - holeTop - 150 + "px";
 
 obstacle.addEventListener("animationiteration", () => {
     if (firstLoop) {
         firstLoop = false;
         return;
     }
-    var random = Math.floor(Math.random() * 300);
-    hole.style.top = random + "px";
-    counter++;
-    console.log("Score:", counter);
+
+    setTimeout(() => {
+        const gap = 150;
+        const maxTopHeight = 400;
+        const randomTopHeight = Math.floor(
+            Math.random() * (maxTopHeight - gap)
+        );
+
+        pipeTop.style.height = randomTopHeight + "px";
+        pipeBottom.style.top = randomTopHeight + gap + "px";
+        pipeBottom.style.height = 550 - randomTopHeight - gap + "px";
+
+        counter++;
+    }, 10); // petit délai pour laisser le DOM re-rendre
 });
 
 setInterval(function () {
     if (gameOver) return;
 
-    var characterTop = parseInt(
+    const characterTop = parseInt(
         window.getComputedStyle(character).getPropertyValue("top")
     );
-    if (jumping == 0) {
+    if (jumping === 0) {
         character.style.top = characterTop + 3 + "px";
     }
 
-    var characterRect = character.getBoundingClientRect();
-    var holeRect = hole.getBoundingClientRect();
-    var obstacleRect = obstacle.getBoundingClientRect();
-    var gameRect = game.getBoundingClientRect();
+    const characterRect = character.getBoundingClientRect();
+    const pipeTopRect = pipeTop.getBoundingClientRect();
+    const pipeBottomRect = pipeBottom.getBoundingClientRect();
+    const gameRect = game.getBoundingClientRect();
 
+    // Sortie de l'écran vertical
     if (
         characterRect.top < gameRect.top ||
         characterRect.bottom > gameRect.bottom
     ) {
-        ttriggerGameOver();
+        triggerGameOver();
     }
 
+    // Collision avec les tuyaux
     if (
-        obstacleRect.left < characterRect.right &&
-        obstacleRect.right > characterRect.left &&
-        (characterRect.top < holeRect.top ||
-            characterRect.bottom > holeRect.bottom)
+        collision(characterRect, pipeTopRect) ||
+        collision(characterRect, pipeBottomRect)
     ) {
-        ttriggerGameOver();
+        triggerGameOver();
     }
 }, 10);
+
+function collision(rect1, rect2) {
+    return !(
+        rect1.right < rect2.left ||
+        rect1.left > rect2.right ||
+        rect1.bottom < rect2.top ||
+        rect1.top > rect2.bottom
+    );
+}
 
 function jump() {
     jumping = 1;
     let jumpCount = 0;
 
-    var jumpInterval = setInterval(function () {
-        var characterTop = parseInt(
+    const jumpInterval = setInterval(function () {
+        const characterTop = parseInt(
             window.getComputedStyle(character).getPropertyValue("top")
         );
         if (characterTop > 6 && jumpCount < 15) {
@@ -69,7 +92,6 @@ function jump() {
         if (jumpCount > 20) {
             clearInterval(jumpInterval);
             jumping = 0;
-            jumpCount = 0;
         }
 
         jumpCount++;
@@ -86,6 +108,11 @@ function triggerGameOver() {
         counter = 0;
         gameOver = false;
         firstLoop = true;
-        hole.style.top = "175px";
+
+        // Reset obstacle position
+        holeTop = 175;
+        pipeTop.style.height = holeTop + "px";
+        pipeBottom.style.top = holeTop + 150 + "px";
+        pipeBottom.style.height = 550 - holeTop - 150 + "px";
     }, 100);
 }
