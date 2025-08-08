@@ -55,13 +55,39 @@ setInterval(function () {
     }
 }, 10);
 
+const frames = [
+    "img/flappy_frame_1.png",
+    "img/flappy_frame_2.png",
+    "img/flappy_frame_3.png",
+    "img/flappy_frame_4.png",
+];
+let frameIndex = 0;
+let animationInterval = null;
+
+function startFlapAnimation() {
+    if (animationInterval) return; // déjà en cours
+    animationInterval = setInterval(() => {
+        frameIndex = (frameIndex + 1) % frames.length;
+        character.style.backgroundImage = `url('${frames[frameIndex]}')`;
+    }, 100);
+}
+
+function stopFlapAnimation() {
+    clearInterval(animationInterval);
+    animationInterval = null;
+    frameIndex = 0;
+    character.style.backgroundImage = `url('${frames[0]}')`;
+}
+
 function jump() {
     if (gameOver) return;
     jumping = 1;
     let jumpCount = 0;
 
-    var jumpInterval = setInterval(function () {
-        var characterTop = parseInt(
+    startFlapAnimation(); // Lance les ailes
+
+    const jumpInterval = setInterval(() => {
+        let characterTop = parseInt(
             window.getComputedStyle(character).getPropertyValue("top")
         );
         if (characterTop > 6 && jumpCount < 15) {
@@ -71,7 +97,7 @@ function jump() {
         if (jumpCount > 20) {
             clearInterval(jumpInterval);
             jumping = 0;
-            jumpCount = 0;
+            stopFlapAnimation(); // Stoppe les ailes
         }
         jumpCount++;
     }, 10);
