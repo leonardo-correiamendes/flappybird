@@ -7,7 +7,7 @@ const game = document.getElementById("game");
 const scoreEl = document.getElementById("score");
 const bestScoreEl = document.getElementById("bestScore");
 
-// Overlays & HUD (assure-toi d’avoir ajouté ces éléments dans le HTML)
+// Overlays & HUD
 const startOverlay = document.getElementById("startOverlay");
 const gameOverOverlay = document.getElementById("gameOverOverlay");
 const finalScoreEl = document.getElementById("finalScore");
@@ -42,9 +42,6 @@ function centerBird() {
     const ch = character.offsetHeight || 48; // 48
     const top = Math.max(0, Math.floor((gh - ch) / 2));
     character.style.top = top + "px"; // centre verticalement
-    // Si tu veux aussi centrer horizontalement, dé-commente :
-    // const gw = game.clientWidth; const cw = character.offsetWidth || 48;
-    // character.style.left = Math.floor((gw - cw)/2) + "px";
 }
 
 function hidePlayfield(hidden) {
@@ -97,7 +94,7 @@ if (hud) hud.classList.add("hidden");
 // ------- Obstacles cycle -------
 obstacle.addEventListener("animationiteration", () => {
     if (!started) return;
-    const holeTop = Math.floor(Math.random() * 250) + 50; // [50..300]
+    const holeTop = Math.floor(Math.random() * 250) + 50;
     setPipes(holeTop);
 
     if (!firstLoop) {
@@ -158,8 +155,8 @@ function startGame() {
 
     character.style.backgroundImage = `url('${frames[0]}')`;
     setPipes(175);
-    centerBird(); // <-- au milieu du jeu
-    hidePlayfield(false); // <-- montrer oiseau + tuyaux
+    centerBird();
+    hidePlayfield(false);
 
     startOverlay.classList.remove("show");
     gameOverOverlay.classList.remove("show");
@@ -186,7 +183,7 @@ function showGameOver() {
     obstacle.classList.remove("running");
     obstacle.classList.add("paused");
 
-    hidePlayfield(true); // <-- cache l’oiseau et les tuyaux
+    hidePlayfield(true);
     counter = 0;
     renderScore();
     setPipes(175);
@@ -207,7 +204,6 @@ function jump() {
     jumping = 1;
     let jumpCount = 0;
 
-    // flip sprite (ailes hautes → retour base)
     if (flapTimeout) clearTimeout(flapTimeout);
     character.style.backgroundImage = `url('${frames[1]}')`;
     flapTimeout = setTimeout(() => {
