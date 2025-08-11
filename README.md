@@ -29,6 +29,7 @@ git clone https://github.com/leonardo-correiamendes/flappybird.git
 
 ## 📂 Structure du projet
 
+```
 flappybird/
 │
 ├── index.html              # Structure (HUD + overlays + jeu)
@@ -39,6 +40,7 @@ flappybird/
     ├── layer2.png          # Parallax: nuages
     ├── flappy_frame_1.png  # Oiseau (ailes basses)
     └── flappy_frame_2.png  # Oiseau (ailes hautes)
+```
 
 ## 🎯 Raccourcis & interactions
 
