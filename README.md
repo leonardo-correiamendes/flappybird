@@ -1,5 +1,7 @@
 # 🐦 Flappy Bird — HTML/CSS/JavaScript
 
+Disponible sur [flappybird.leonardocm.fr](flappybird.leonardocm.fr)
+
 Un mini-clone de **Flappy Bird** en **HTML, CSS et JavaScript vanilla** : saute avec l’oiseau, passe entre les tuyaux, et bats ton record personnel !
 
 ## 🎮 Fonctionnalités
